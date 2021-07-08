@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_migrate import Migrate
 # from requests.models import guess_json_utf
 from webapp.db import db
 from webapp.user.models import User
@@ -13,6 +14,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
+    migrate = Migrate(app, db, render_as_batch=True)
+    print(migrate)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -27,6 +30,7 @@ def create_app():
         return User.query.get(user_id)
 
     return app
+
 
 # if __name__ == "__main__":
 #     app.run(debug=True)

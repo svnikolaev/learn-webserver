@@ -6,7 +6,7 @@
 
     </div>
     <div class="col-4">
-      <form action="{{ url_for('user.process_login') }}" method="POST">
+      <form action="{{ url_for('user.process_reg') }}" method="POST">
         <h1 class="bd-title">
           {{title}}
         </h1>
@@ -16,12 +16,16 @@
           {{ form.username() }}
         </div>
         <div class="mb-3">
+          {{ form.email.label }}
+          {{ form.email() }}
+        </div>
+        <div class="mb-3">
           {{ form.password.label }}
           {{ form.password() }}
         </div>
-        <div class="mb-3 form-check">
-          {{ form.remember_me() }}
-          {{ form.remember_me.label(class_='form-check-label')}}
+        <div class="mb-3">
+          {{ form.repassword.label }}
+          {{ form.repassword() }}
         </div>
         <div class="mb-3">
           {{ form.submit() }}

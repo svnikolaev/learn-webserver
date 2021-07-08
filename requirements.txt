@@ -1,3 +1,4 @@
+alembic==1.6.5
 astroid==2.5.6
 beautifulsoup4==4.9.3
 certifi==2021.5.30
@@ -7,6 +8,7 @@ colorama==0.4.4
 flake8==3.9.2
 Flask==2.0.1
 Flask-Login==0.5.0
+Flask-Migrate==3.0.1
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==0.15.1
 greenlet==1.1.0
@@ -15,12 +17,16 @@ isort==5.8.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 lazy-object-proxy==1.6.0
+Mako==1.1.4
 MarkupSafe==2.0.1
 mccabe==0.6.1
 pycodestyle==2.7.0
 pyflakes==2.3.1
 pylint==2.8.3
+python-dateutil==2.8.1
+python-editor==1.0.4
 requests==2.25.1
+six==1.16.0
 soupsieve==2.2.1
 SQLAlchemy==1.4.17
 toml==0.10.2

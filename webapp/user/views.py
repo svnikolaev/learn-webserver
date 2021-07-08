@@ -1,7 +1,8 @@
 from flask import Blueprint, flash, render_template, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 
-from webapp.user.forms import LoginForm
+from webapp.db import db
+from webapp.user.forms import LoginForm, RegistrationForm
 from webapp.user.models import User
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
@@ -9,8 +10,6 @@ blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 @blueprint.route('/login')
 def login():
-    print("Отладка login")
-    print(current_user.is_authenticated)
     if current_user.is_authenticated:
         return redirect(url_for('news.index'))
     title = "Авторизация"
@@ -21,7 +20,6 @@ def login():
 @blueprint.route('/process-login', methods=['POST'])
 def process_login():
     form = LoginForm()
-
     if form.validate_on_submit():
         user = User.query.filter(
             User.username == form.username.data
@@ -31,10 +29,35 @@ def process_login():
             flash("Вы успешно вошли на сайт")
             return redirect(url_for('news.index'))
     flash('Неправильные имя или пароль')
-    return redirect(url_for('login'))
+    return redirect(url_for('user.login'))
 
 
 @blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('news.index'))
+
+
+@blueprint.route('/registration')
+def registration():
+    if current_user.is_authenticated:
+        return redirect(url_for('news.index'))
+    form = RegistrationForm()
+    title = "Регистрация"
+    return render_template('user/registration.html', title=title, form=form)
+
+
+@blueprint.route('/process-reg', methods=['POST'])
+def process_reg():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        new_user = User(
+            username=form.username.data, email=form.email.data, role='user'
+        )
+        new_user.set_password(form.password.data)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Вы успешно зарегистрировались!')
+        return redirect(url_for('user.login'))
+    flash('Пожалуйста, исправьте ошибки в форме')
+    return redirect(url_for('user.registration'))
