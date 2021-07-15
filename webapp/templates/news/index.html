@@ -5,21 +5,13 @@
       <div class="col-8">
           <h2>Новости</h2>
           {% for news in news_list %}
-          <h3><a href="{{ news.url }}">{{ news.title }}</a></h3>
-          <p>{{ news.published.strftime('%Y-%m-%d') }}</p>
+          <h3><a href="{{ url_for('news.single_news', news_id=news.id) }}">{{ news.title }}</a></h3>
+          <p>{{ news.published.strftime('%Y-%m-%d') }} | Комментарии {{ news.comments_count() }}</p>
           <hr />
           {% endfor %}
       </div>
       <div class="col-4">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          <div class="alert alert-warning" role="alert">
-            {% for message in messages %}
-              {{ message }}<br>
-            {% endfor %}
-          </div>
-          {% endif %}
-        {% endwith %}
+        {% include('messages.html') %}
         <h2>Прогноз погоды</h2>
         {% if weather %}
             Погода: {{weather.temp_C}}, ощущается как {{weather.FeelsLikeC}}
